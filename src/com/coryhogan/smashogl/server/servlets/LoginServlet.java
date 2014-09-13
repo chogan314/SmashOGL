@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		boolean rememberMe = "true".equals(req.getParameter("rememberMe"));
 		
-		User user = UserDAO.get(username);
+		User user = UserDAO.getInstance().get(username);
 		
 		if (user == null) {
 			// send error message
@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
 		SessionUtils.hardLogin(session, username);
 		
 		if (rememberMe) {
-			RememberMeUserDAO.add(username);
+			RememberMeUserDAO.getInstance().add(username);
 		}
 	}
 }

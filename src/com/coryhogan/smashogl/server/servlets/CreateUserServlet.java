@@ -23,18 +23,20 @@ public class CreateUserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		// TODO: Real implementation
+		
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		String emailAddress = req.getParameter("emailAddress");
 		
-		if (UserDAO.get(username) != null) {
+		if (UserDAO.getInstance().get(username) != null) {
 			req.setAttribute("usernameTaken", true);
 			req.getRequestDispatcher("/login.jsp").forward(req, resp);
 		}
 		
 		try {
 			String passwordHash = PasswordHash.createHash(password);
-			UserDAO.add(username, passwordHash, emailAddress);
+			UserDAO.getInstance().add(username, passwordHash, emailAddress);
 			HttpSession session = req.getSession(true);
 			SessionUtils.hardLogin(session, username);
 			//resp.sendRedirect("/index.jsp");

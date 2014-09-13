@@ -5,26 +5,37 @@ import javax.persistence.EntityManager;
 import com.coryhogan.smashogl.persistence.entities.RememberMeUser;
 import com.coryhogan.smashogl.persistence.entities.User;
 import com.coryhogan.smashogl.persistence.utils.EMFService;
-import com.google.appengine.api.datastore.Key;
 
-public final class RememberMeUserDAO {
-	private RememberMeUserDAO() { }
+public final class RememberMeUserDAO extends DAO<RememberMeUser, Long> {
+	private static RememberMeUserDAO instance;
 	
-	public static void add(String username) {
-		EntityManager em = EMFService.get().createEntityManager();
+	private RememberMeUserDAO() {
+		super(RememberMeUser.class);
+	}
+	
+	public static RememberMeUserDAO getInstance() {
+		if (instance == null) {
+			instance = new RememberMeUserDAO();
+		}
+		return instance;
+	}
+	
+	public void add(String username) {
 		RememberMeUser rmUser = new RememberMeUser(username);
-		em.persist(rmUser);
-		em.close();
+		add(rmUser);
 	}
 	
-	public static User getUserFromCookieData(String data) {
-		return null;
-	}
-	
-	public static void remove(Key key) {
+	public User getUserFromCookieData(String data) {
+		long id = Long.parseLong(data);
 		EntityManager em = EMFService.get().createEntityManager();
-		RememberMeUser rmUser = em.find(RememberMeUser.class, key);
-		em.remove(rmUser);
+		RememberMeUser rmUser = em.find(RememberMeUser.class, id);
+		
+		if (rmUser == null) {
+			return null;
+		}
+		
+		User user = UserDAO.getInstance().get(rmUser.getUsername());
 		em.close();
+		return user;
 	}
 }

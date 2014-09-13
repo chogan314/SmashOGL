@@ -1,34 +1,32 @@
 package com.coryhogan.smashogl.persistence.entities;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class RememberMeUser {
+public class QueueEntry {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Date creationDate;	
 	private String username;
+	private long joinTime;
 	
-	public RememberMeUser(String username) {
+	public QueueEntry(String username) {
 		this.username = username;
-		creationDate = new Date();
+		joinTime = System.currentTimeMillis();
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
 	
-	public Date getCreationDate() {
-		return creationDate;
+	public long getJoinTime() {
+		return joinTime;
 	}
 }
