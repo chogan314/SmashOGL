@@ -19,5 +19,7 @@
 	<input type="checkbox" name="rememberMe" id="rememberMe" /><br>
 	<input type="submit" value="Submit" />
 	</form>
+	
+	<a href="/enterQueue">TEST</a>
 </body>
 </html>

@@ -3,8 +3,6 @@ package com.coryhogan.smashogl.server.servlets;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +41,6 @@ public class CreateUserServlet extends HttpServlet {
 			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 			
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			Logger.getLogger("servlets").log(Level.WARNING, "Failed to hash password:\n" + e.toString());
 			throw new ServletException();
 		}
 	}

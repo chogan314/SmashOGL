@@ -26,4 +26,8 @@ public final class SessionUtils {
 		return session.getAttribute(HARD_LOGIN) != null &&
 				(boolean) session.getAttribute(HARD_LOGIN);
 	}
+	
+	public static String getUsername(HttpSession session) {
+		return (String) session.getAttribute(USERNAME);
+	}
 }
