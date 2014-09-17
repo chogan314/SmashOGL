@@ -26,4 +26,14 @@ public class Chat {
 	public List<String> getUsernames() {
 		return usernames;
 	}
+	
+	public boolean hasUser(String username) {
+		for (String uName : usernames) {
+			if (uName.equals(username)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
