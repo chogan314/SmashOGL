@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Smash OGL: Create Account</title>
+</head>
+<body>
+	<label for="username">Username:</label>
+	<input type="text" name="username" id="username" size="20" />
+	<div id="usernameInLimbo"></div>
+	<div id="usernameTaken"></div>
+	<br>
+
+	<label for="password">Password:</label>
+	<input type="password" name="password" id="password" size="60" />
+	<div id="passwordShort"></div>
+	<br>
+
+	<label for="passwordVerify">Verify Password:</label>
+	<input type="password" name="passwordVerify" id="passwordVerify" size="60" />
+	<div id="passwordMismatch"></div>
+	<br>
+
+	<label for="emailAddress">Email Address:</label>
+	<input type="text" name="emailAddress" id="emailAddress" size="100" />
+	<div id="emailInvalid"></div>
+	<br>
+
+	<label for="emailAddressVerify">Verify Email:</label>
+	<input type="text" name="emailAddressVerify" id="emailAddressVerify" size="100" />
+	<div id="emailMismatch"></div>
+	<br>
+
+	<input type="button" value="Submit" id="submitButton" onclick="doSubmit();" />
+	<div id="errorsPresent"></div>
+	<br>
+	<br>
+	<div id="success"></div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+	<script>
+		function handleResponse(data) {
+			if (!data) {
+				// TODO: Handle error
+			} else {
+				var tags = data.split(":");
+				
+				if ($.inArray("success", tags) !== -1) {
+					$("#success").html("Registration success! You will receive an authentication email shortly.");
+					$("#usernameInLimbo").html("");
+					$("#usernameTaken").html("");
+				} else {
+					if ($.inArray("usernameLimbo", tags) !== -1) {
+						$("#usernameInLimbo").html("Chosen username is awaiting verification. Check your " + 
+								"email if you have tried to register this name previously.");
+					}
+					
+					if ($.inArray("usernameTaken", tags) !== -1) {
+						$("#usernameTaken").html("Username is taken.");
+					}
+				}
+			}
+		}
+	
+		function doSubmit() {
+			var canSubmit = true;
+			
+			var usernameVal = $("#username").val();
+
+			var passwordVal = $("#password").val();
+			var passwordVerifyVal = $("#passwordVerify").val();
+			
+			var emailAddressVal = $("#emailAddress").val();
+			var emailAddressVerifyVal = $("#emailAddressVerify").val();
+
+			if (!(passwordVal === passwordVerifyVal)) {
+				$("#passwordMismatch").html("Passwords do not match.");
+				canSubmit = false;
+			} else {
+				$("#passwordMismatch").html("");
+			}
+			
+			if (passwordVal.length < 8) {
+				$("#passwordShort").html("Password must be at least 8 characters.");
+				canSubmit = false;
+			} else {
+				$("#passwordShort").html("");
+			}
+
+			if (!(emailAddressVal === emailAddressVerifyVal)) {
+				$("#emailMismatch").html("Email addresses do not match.");
+				canSubmit = false;
+			} else {
+				$("#emailMismatch").html("");
+			}
+
+			if (!/\S+@\S+\.\S+/.test(emailAddressVal)) {
+				$("#emailInvalid").html("Email address not valid (Format: a@b.c)");
+				canSubmit = false;
+			} else {
+				$("#emailInvalid").html("");
+			}
+
+			if (canSubmit) {
+				$("#errorsPresent").html("");
+
+				var userData = {
+					username: usernameVal,
+					password: passwordVal,
+					emailAddress: emailAddressVal
+				};
+				
+				$.post("/createUser", userData, function(data) {
+					handleResponse(data);
+				});
+
+			} else {
+				$("#errorsPresent").html("Could not submit: See errors above.");
+			}
+		}
+	</script>
+</body>
+</html>

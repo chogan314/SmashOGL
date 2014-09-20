@@ -7,15 +7,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	
     <servlet>
         <servlet-name>CreateUserServlet</servlet-name>
-        <servlet-class>com.coryhogan.smashogl.server.servlets.CreateUserServlet</servlet-class>
+        <servlet-class>com.smashogl.server.servlets.CreateUserServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>com.coryhogan.smashogl.server.servlets.LoginServlet</servlet-class>
+        <servlet-class>com.smashogl.server.servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EnterQueueServlet</servlet-name>
-        <servlet-class>com.coryhogan.smashogl.server.servlets.EnterQueueServlet</servlet-class>
+        <servlet-class>com.smashogl.server.servlets.EnterQueueServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
@@ -32,7 +32,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
 
     <welcome-file-list>
-		<welcome-file>login.jsp</welcome-file>
+		<welcome-file>createAccount.html</welcome-file>
 	</welcome-file-list>
     
 </web-app>
