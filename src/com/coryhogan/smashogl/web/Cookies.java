@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class Cookies {
+	public static final String REMEMBER_ME_COOKIE_NAME = "rmId";
+	
 	private Cookies() { }
 
 	public static String getCookieValue(HttpServletRequest request, String name) {

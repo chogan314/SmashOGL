@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,9 +15,11 @@ import javax.servlet.http.HttpSession;
 
 import com.coryhogan.smashogl.persistence.daos.RememberMeUserDAO;
 import com.coryhogan.smashogl.persistence.daos.UserDAO;
+import com.coryhogan.smashogl.persistence.entities.RememberMeUser;
 import com.coryhogan.smashogl.persistence.entities.User;
 import com.coryhogan.smashogl.persistence.utils.PasswordHash;
 import com.coryhogan.smashogl.server.util.SessionUtils;
+import com.coryhogan.smashogl.web.Cookies;
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
@@ -47,7 +50,10 @@ public class LoginServlet extends HttpServlet {
 		SessionUtils.hardLogin(session, username);
 		
 		if (rememberMe) {
-			RememberMeUserDAO.getInstance().add(username);
+			RememberMeUser rmUser = new RememberMeUser(username);
+			RememberMeUserDAO.getInstance().add(rmUser);
+			Cookie cookie = new Cookie(Cookies.REMEMBER_ME_COOKIE_NAME, rmUser.getId().toString());
+			resp.addCookie(cookie);
 		}
 	}
 }
